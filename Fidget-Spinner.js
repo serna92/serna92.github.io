@@ -4,7 +4,7 @@ var instructions;
 
 function setup(){
 	
-	createCanvas (150,150);
+	createCanvas (350, 350);
 	angleMode(DEGREES);
 	spinning = false;
 	myFidget = new Fidget();
@@ -28,7 +28,8 @@ function draw(){
 		if(instructions){
 		
 			fill('white');
-			text("Click or SPACE To Spin", 10 - width / 2, height / 2 - 5);
+			textSize(12 * (width / 150));
+			text("Click or SPACE To Spin", (width / 150) * 10 - width / 2, -5 * (height / 150) + height / 2);
 		}
 		myFidget.resetPosition();
 	}
@@ -99,15 +100,15 @@ function Fidget() {
 		fill(this.c);
 		translate(width / 2, height / 2);
 		rotate(this.angle);
-		ellipse (30*cos(0), -30*sin(0), 50, 50);
-		ellipse (30*cos(120), -30*sin(120), 50, 50);
-		ellipse (30*cos(240), -30*sin(240), 50, 50);
-		ellipse (this.x, this.y, 50, 50);
+		ellipse ((width / 150) * 30*cos(0), (height / 150) * -30*sin(0), (width / 150) * 50, (height / 150) * 50);
+		ellipse ((width / 150) * 30*cos(120), (height / 150) * -30*sin(120), (width / 150) * 50, (height / 150) * 50);
+		ellipse ((width / 150) * 30*cos(240), (height / 150) * -30*sin(240), (width / 150) * 50, (height / 150) * 50);
+		ellipse (this.x, this.y, (width / 150) * 50, (height / 150) * 50);
 		
 		fill(0);
-		ellipse (30*cos(0), -30*sin(0), 20, 20);
-		ellipse (30*cos(120), -30*sin(120), 20, 20);
-		ellipse (30*cos(240), -30*sin(240), 20, 20);
-		ellipse (this.x, this.y, 20, 20);
+		ellipse ((width / 150) * 30*cos(0), (height / 150) * -30*sin(0), (width / 150) * 20, (height / 150) * 20);
+		ellipse ((width / 150) * 30*cos(120), (height / 150) * -30*sin(120), (width / 150) * 20, (height / 150) * 20);
+		ellipse ((width / 150) * 30*cos(240), (height / 150) * -30*sin(240), (width / 150) * 20, (height / 150) * 20);
+		ellipse (this.x, this.y, (width / 150) * 20, (height / 150) * 20);
 	}
 }

@@ -14,7 +14,7 @@ function setup(){
 
 function draw(){
 	
-	background(0,30);
+	background(0,map(mouseX,0,width,0,100));
 
 	for(var i = 0; i < nballs; i++){
 		

@@ -1,12 +1,16 @@
 var balls;
 var nballs;
+var instructions;
 
 function setup(){
 
 	createCanvas (300, 300);
+	background(0);
 	frameRate(60);
 	balls = [];
 	nballs = 50;
+	instructions = true;
+	setTimeout(showInstructions, 1000);
 	
 	for(var i = 0; i < nballs; i++)
 		balls.push(new Ball());
@@ -14,7 +18,14 @@ function setup(){
 
 function draw(){
 	
-	background(0,map(mouseX,0,width,0,100));
+	background(0, map(mouseX,0, width, 0, 100));
+	
+	if(instructions){
+		
+		fill('white');
+		textSize(12 * (width / 150));
+		text("Drag mouse horizontally", (width / 150) * 10, height -5 *(height / 150));
+	}
 
 	for(var i = 0; i < nballs; i++){
 		
@@ -22,6 +33,11 @@ function draw(){
 		balls[i].update();
 	}
 
+}
+
+function showInstructions(){
+
+		instructions = false;
 }
 
 function Ball() {

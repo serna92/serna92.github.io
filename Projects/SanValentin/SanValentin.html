@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+	
+		<meta charset="UTF-8" content="width=device-width, initial-scale=1.0">
+		
+		<style>
+		
+			body {background-color: paleturquoise;}
+			.title {text-align: center; padding-top: 50px; color: darkorange; font-family: 'Courier New', monospace;}
+			#myCanvas {display: block; margin: auto; border:5px double #FF5599; background-color: #FFFFFF; margin-top: 50px;}
+			#controls {text-align:center; width:380px; margin: auto; margin-top: 30px; border: 2px groove #0000FF; border-radius: 32px 8px;}
+			button {text-align: center; border-radius: 8px; font-size: 16px; padding: 10px 24px; background-color: #FFDD55;}
+			.disable-select {-webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;}
+		
+		</style>
+	</head>
+	
+	<body onload="startGame()">
+
+		<div class="title">
+			<h1>&#128525;Happy Saint Valentine's&#128525;</h1>
+			<h2>&#127800;Anja&#127800;</h2>
+		</div>
+
+		<canvas id="myCanvas" width=750 height=500></canvas>
+		
+		<div id="controls">
+		  <button class="disable-select" onmousedown="moveup()" onmouseup="clearmove()" ontouchstart="moveup()" ontouchend="clearmove()">UP</button><br><br>
+		  <button class="disable-select" onmousedown="moveleft()" onmouseup="clearmove()" ontouchstart="moveleft()" ontouchend="clearmove()">LEFT</button>
+		  <button class="disable-select" onmousedown="moveright()" onmouseup="clearmove()" ontouchstart="moveright()" ontouchend="clearmove()">RIGHT</button><br><br>
+		  <button class="disable-select" onmousedown="movedown()" onmouseup="clearmove()" ontouchstart="movedown()" ontouchend="clearmove()">DOWN</button>
+		</div>
+
+		<script>
+		
+			var cursor;
+			var t;
+			var timePassed;
+
+			var canvas = document.getElementById("myCanvas");
+			var ctx = canvas.getContext("2d");
+
+			var background = new Image();
+			background.src = "images/background.jpg";
+
+			// Make sure the image is loaded first otherwise nothing will draw.
+			background.onload = function(){
+				ctx.drawImage(background, 10, 10, canvas.width - 20, canvas.height - 20);   
+			}
+
+			function startGame() {
+				cursor = new component(150, 100, "images/heartwings.png", canvas.width/2 - 75, canvas.height/2 - 50, "image");
+				myGameArea.start();
+			}
+
+			var myGameArea = {
+				canvas : document.getElementById("myCanvas"),
+				start : function() {
+					this.context = this.canvas.getContext("2d");
+					window.requestAnimationFrame(updateGameArea);
+					},
+				clear : function() {
+					this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+					this.context.drawImage(background, 10, 10, canvas.width - 20, canvas.height - 20);
+				},
+				stop : function() {
+					clearInterval(this.interval);
+				}
+			}
+
+			function component(width, height, img, x, y, type) {
+				this.type = type;
+				if (type == "image") {
+					this.image = new Image();
+					this.image.src = img;
+				}
+				this.width = width;
+				this.height = height;
+				this.dir = 0
+				this.speed = 200;   
+				this.x = x;
+				this.y = y;    
+				this.update = function() {
+					
+					if (type == "image") {
+						ctx.drawImage(this.image, 
+							this.x, 
+							this.y,
+							this.width, this.height);
+					} else {
+						ctx.fillStyle = img;
+						ctx.fillRect(this.x, this.y, this.width, this.height);
+					}
+				}
+				this.newPos = function() {
+					timePassed = (Date.now() - t) / 1000; 
+					t = Date.now();
+
+					if(this.dir == 1) {
+					
+						if (this.y > 0)
+						this.y -= (this.speed * timePassed);
+					}
+					else if(this.dir == 2) { 
+					
+						if (this.y < canvas.height - this.height)
+						this.y += (this.speed * timePassed);
+					}     
+					else if(this.dir == 3) { 
+					
+						if(this.x > 0)
+						this.x -= (this.speed * timePassed);
+					}     
+					else if(this.dir == 4) {
+					
+						if (this.x < canvas.width - this.width)
+						this.x += (this.speed * timePassed);
+					}     					
+				}
+			}
+
+			function updateGameArea() {
+				myGameArea.clear();
+				cursor.newPos();
+				cursor.update();
+				window.requestAnimationFrame(updateGameArea);
+			}
+
+			function moveup() {
+				cursor.dir = 1;
+			}
+
+			function movedown() {
+				cursor.dir = 2;
+			}
+
+			function moveleft() {
+				cursor.dir = 3;
+			}
+
+			function moveright() {
+				cursor.dir = 4;
+			}
+
+			function clearmove() {
+				cursor.dir = 0;
+			}
+			
+		</script>
+
+	</body>
+</html>
